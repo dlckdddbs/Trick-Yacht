@@ -5,21 +5,28 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [Header("메인 게임 UI (HUD)")]
-    public TextMeshProUGUI stageText;
-    public TextMeshProUGUI targetScoreText;
-    public TextMeshProUGUI cumulativeScoreText;
-    public TextMeshProUGUI roundPlaysText;
-    public TextMeshProUGUI scoringFormulaText;
+    public TextMeshProUGUI stageText;       // 스테이지
+    public TextMeshProUGUI targetScoreText;     //목표 점수
+    public TextMeshProUGUI cumulativeScoreText; //누적점수
+    public TextMeshProUGUI roundPlaysText;      //라운드(총 3번을 던져서 목표점수 달성해야됨), 리롤횟수
+    public TextMeshProUGUI scoringFormulaText;  //족보 적용시 점수
 
     [Header("버튼 객체 연결")]
-    public Button rollButton;
-    public Button finishButton;
+    public Button rollButton;   //리롤
+    public Button finishButton; //턴 끝내기
 
     [Header("결과 화면 UI")]
-    public GameObject resultPanel;
-    public TextMeshProUGUI resultDescription;
+    public GameObject resultPanel;  //결과
+    public TextMeshProUGUI resultDescription;   //결과 텍스트
 
-    // 매개변수 중 baseSum을 boardSum(전체 합계)으로 용도 변경하여 받음.
+    [Header("상점 진입 선택 UI")]
+    public GameObject shopChoicePanel; // 상점을 갈지 묻는 팝업창 패널
+    public Button goShopButton;        // 상점 가기 버튼
+    public Button nextStageButton;     // 다음 스테이지 버튼
+
+    public void ShowShopChoice() => shopChoicePanel.SetActive(true);
+    public void HideShopChoice() => shopChoicePanel.SetActive(false);
+
     public void UpdateGameUI(int stageNum, int cumulativeScore, int targetScore, int playsMade, int maxPlays, int rerollsLeft, string handName, int boardSum, float multiplier)
     {
         stageText.text = $"스테이지: {stageNum}";
@@ -27,7 +34,6 @@ public class UIManager : MonoBehaviour
         cumulativeScoreText.text = $"누적 점수: {cumulativeScore}";
         roundPlaysText.text = $"라운드: {playsMade} / {maxPlays} | 남은 굴리기: {rerollsLeft}";
 
-        // [변경됨] "주사위를 선택하세요" 문구를 없애고 항상 5개 기준 최대 점수를 보여줌.
         scoringFormulaText.text = $"<color=#FFD700>{handName}</color>\n";
 
         int finalScoreForTurn = Mathf.FloorToInt(boardSum * multiplier);
